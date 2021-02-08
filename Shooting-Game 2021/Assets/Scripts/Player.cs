@@ -44,7 +44,12 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            GameObject laser = Instantiate(laserprefab, transform.position,Quaternion.identity) as GameObject;
+            GameObject laser =
+            Instantiate(laserprefab,
+            transform.position,
+            Quaternion.identity)
+            as GameObject;
+
             laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectSpeed);
         }
     }
