@@ -42,14 +42,13 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetMouseButtonDown(0))
         {
             GameObject laser =
             Instantiate(laserprefab,
             transform.position,
             Quaternion.identity)
             as GameObject;
-
             laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectSpeed);
         }
     }
