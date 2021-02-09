@@ -8,7 +8,9 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float padding = 1f;
     [SerializeField] float projectSpeed = 10f;
+    [SerializeField] float projectFiringPeriod = 0.1f;
 
+    Coroutine fireCourt;
     float xMin;
     float xMax;
     float yMin;
@@ -29,9 +31,7 @@ public class Player : MonoBehaviour
         yMax = cameraMain.ViewportToWorldPoint(new Vector3(1,1,0)).y - padding;
     }
 
-   
 
-    // Update is called once per frame
     void Update()
     {
         Move();
@@ -42,17 +42,33 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Fire1"))
         {
-            GameObject laser =
-            Instantiate(laserprefab,
-            transform.position,
-            Quaternion.identity)
-            as GameObject;
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectSpeed);
+           fireCourt = StartCoroutine(FireContinue());
         }
+
+        if (Input.GetButtonUp("Fire1")) 
+        {
+            StopCoroutine(fireCourt);
+        }
+
+
     }
 
+
+    IEnumerator FireContinue()
+    {
+        while (true)
+        {
+            GameObject laser =
+               Instantiate(laserprefab,
+               transform.position,
+               Quaternion.identity)
+               as GameObject;
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectSpeed);
+            yield return new WaitForSeconds(projectFiringPeriod);
+        }
+    }
 
 
     private void Move()
